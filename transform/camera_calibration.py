@@ -6,10 +6,10 @@ import matplotlib.image as mpimg
 
 # Read in calibration images
 images = glob.glob('../camera_cal/calibration*.jpg')
-test_images = glob.glob('../test_images/test*.jpg')
+# test_images = glob.glob('../test_images/test*.jpg')
 
 
-def get_calibration_params(images, save = False):
+def get_calibration_params(images, save=False):
     """
     :param images: Calibration image files
     :return: objpoints and imgpoints for undistortion. Each objpoint is produced by one calibration image
@@ -53,7 +53,8 @@ def get_calibration_params(images, save = False):
 # performs the camera calibration, image distortion correction and
 # returns the undistorted image
 def cal_undistort(img, params):
-    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(params['objpoints'], params['imgpoints'], (img.shape[1], img.shape[0]), None, None)
+    ret, mtx, dist, rvecs, tvecs = \
+        cv2.calibrateCamera(params['objpoints'], params['imgpoints'], (img.shape[1], img.shape[0]), None, None)
     undist = cv2.undistort(img, mtx, dist, None, mtx)
     return undist
 
@@ -74,5 +75,11 @@ def undistort_test_images(images, calib_param):
         plt.show()
 
 
-param = get_calibration_params(images)
+global_param = get_calibration_params(images)
+
+
+def undistort(image, param=global_param):
+    return cal_undistort(image, param)
+
+
 # undistort_test_images(test_images, param)
