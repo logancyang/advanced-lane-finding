@@ -10,11 +10,9 @@ img = cv2.imread('../test_images/test6.jpg')
 
 def bird_view(img, plot=False, output_file="warp"):
     # 4 source points
-    src = np.float32([[490, 480], [810, 480],
-                      [1250, 720], [40, 720]])
+    src = np.float32([[490, 480], [810, 480], [1250, 720], [40, 720]])
     # 4 destination points
-    dst = np.float32([[0, 0], [1280, 0],
-                      [1250, 720], [40, 720]])
+    dst = np.float32([[0, 0], [1280, 0], [1250, 720], [40, 720]])
     M = cv2.getPerspectiveTransform(src, dst)
     warped = cv2.warpPerspective(img, M, (img.shape[1], img.shape[0]))
     if plot:

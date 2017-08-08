@@ -92,8 +92,10 @@ class Line:
 
     @staticmethod
     def radius_of_curvature(xvals, yvals):
-        ym_per_pix = 30. / 720  # meters per pixel in y dimension
-        xm_per_pix = 3.7 / 700  # meteres per pixel in x dimension
+        # meters per pixel in y dimension
+        ym_per_pix = 30. / 720
+        # meteres per pixel in x dimension
+        xm_per_pix = 3.7 / 700
         fit_cr = np.polyfit(yvals * ym_per_pix, xvals * xm_per_pix, 2)
         curverad = ((1 + (2 * fit_cr[0] * np.max(yvals) + fit_cr[1]) ** 2) ** 1.5) \
                    / np.absolute(2 * fit_cr[0])

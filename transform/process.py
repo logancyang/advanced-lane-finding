@@ -125,7 +125,7 @@ def process(image):
     left_curverad = Left.radius_of_curvature(leftx, lefty)
     right_curverad = Right.radius_of_curvature(rightx, righty)
 
-    # Only print the radius of curvature every 3 frames for improved readability
+    # Only print the radius of curvature every 3 frames
     if Left.count % 3 == 0:
         Left.radius = left_curverad
         Right.radius = right_curverad
@@ -134,10 +134,9 @@ def process(image):
     position = (rightx_int + leftx_int) / 2
     distance_from_center = abs((640 - position) * 3.7 / 700)
 
-    src = np.float32([[490, 480], [810, 480],
-                      [1250, 720], [40, 720]])
-    dst = np.float32([[0, 0], [1280, 0],
-                      [1250, 720], [40, 720]])
+    # TODO: Should avoid hardcoding the src and dst
+    src = np.float32([[490, 480], [810, 480], [1250, 720], [40, 720]])
+    dst = np.float32([[0, 0], [1280, 0], [1250, 720], [40, 720]])
     Minv = cv2.getPerspectiveTransform(dst, src)
 
     warp_zero = np.zeros_like(combined_binary).astype(np.uint8)
@@ -145,6 +144,7 @@ def process(image):
     pts_left = np.array([np.flipud(np.transpose(np.vstack([left_fitx, lefty])))])
     pts_right = np.array([np.transpose(np.vstack([right_fitx, righty]))])
     pts = np.hstack((pts_left, pts_right))
+
     cv2.polylines(color_warp, np.int_([pts]), isClosed=False, color=(0,0,255), thickness = 40)
     cv2.fillPoly(color_warp, np.int_([pts]), (0,255, 0))
     newwarp = cv2.warpPerspective(color_warp, Minv, (combined_binary.shape[1], combined_binary.shape[0]))

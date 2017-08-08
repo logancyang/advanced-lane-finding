@@ -71,8 +71,8 @@ def undistort_test_images(images, calib_param):
         ax2.imshow(cv2.cvtColor(undistorted, cv2.COLOR_BGR2RGB))
         ax2.set_title('Undistorted Image', fontsize=50)
         plt.subplots_adjust(left=0., right=1, top=0.9, bottom=0.)
-        plt.savefig('../undist_images/test_undist_' + str(index) + '.jpg')
-        plt.show()
+        plt.savefig('../output_images/undist_images/chess_undist_' + str(index) + '.jpg')
+        # plt.show()
 
 
 global_param = get_calibration_params(images)
@@ -82,4 +82,4 @@ def undistort(image, param=global_param):
     return cal_undistort(image, param)
 
 
-# undistort_test_images(test_images, param)
+# undistort_test_images(images, global_param)
