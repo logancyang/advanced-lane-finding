@@ -50,7 +50,7 @@ video = None
 Left = Line("left")
 Right = Line("right")
 video_output = 'result.mp4'
-clip1 = VideoFileClip("project_video.mp4")
+clip1 = VideoFileClip("project_video.mp4") #.subclip(40, 43)
 white_clip = clip1.fl_image(process)
 white_clip.write_videofile(video_output, audio=False)
 

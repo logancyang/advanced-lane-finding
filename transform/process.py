@@ -5,13 +5,30 @@ from transform.perspective_transform import bird_view
 from transform.threshold import threshold_image
 import glob
 from transform.line import Line
+import matplotlib.image as mpimg
 
 calib_images = glob.glob('camera_cal/calibration*.jpg')
+# calib_images = glob.glob('../camera_cal/calibration*.jpg')
 
 # Undistort
 calib_params = get_calibration_params(calib_images)
 Left = Line("left")
 Right = Line("right")
+
+
+def process_single(image):
+    img_size = (image.shape[1], image.shape[0])
+
+    # Calibrate camera and undistort image
+    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(calib_params["objpoints"], calib_params["imgpoints"], img_size,
+                                                       None, None)
+    undist = cv2.undistort(image, mtx, dist, None, mtx)
+
+    # Warp
+    warped, M = bird_view(undist)
+
+    # Threshold
+    combined_binary = threshold_image(warped, plot=True)
 
 
 def process(image):
@@ -162,3 +179,6 @@ def process(image):
                 fontFace=16, fontScale=2, color=(255, 255, 255), thickness=2)
     Left.count += 1
     return result
+
+# test_image = mpimg.imread('../test_images/test5.jpg')
+# process_single(test_image)

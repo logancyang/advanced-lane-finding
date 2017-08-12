@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from transform.camera_calibration import undistort
 
 # Read in an image
-img = cv2.imread('../test_images/test6.jpg')
+img = cv2.imread('../test_images/test5.jpg')
 
 
 def bird_view(img, plot=False, output_file="warp"):
